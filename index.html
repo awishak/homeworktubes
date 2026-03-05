@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homework Tubes™ — Where Learning Gets Tubular!</title>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Fredoka:wght@400;500;600;700&family=Bangers&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --tube-red: #E8243C;
+    --tube-yellow: #FFD233;
+    --tube-blue: #2B7CE9;
+    --tube-green: #3CBB57;
+    --tube-purple: #9B4DFF;
+    --tube-orange: #FF8C1A;
+    --tube-pink: #FF5FA2;
+    --bg-cream: #FFF8E7;
+    --dark: #1A1230;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Fredoka', sans-serif;
+    background: var(--bg-cream);
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+
+  .tube-bg {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .tube-bg .tube {
+    position: absolute;
+    border-radius: 999px;
+    opacity: 0.08;
+  }
+
+  .tube-bg .tube:nth-child(1) { width: 200px; height: 2000px; background: var(--tube-red); top: -200px; left: 5%; transform: rotate(15deg); }
+  .tube-bg .tube:nth-child(2) { width: 160px; height: 1800px; background: var(--tube-blue); top: -100px; left: 25%; transform: rotate(-10deg); }
+  .tube-bg .tube:nth-child(3) { width: 180px; height: 2200px; background: var(--tube-yellow); top: -300px; right: 15%; transform: rotate(8deg); }
+  .tube-bg .tube:nth-child(4) { width: 140px; height: 1600px; background: var(--tube-green); top: 100px; right: 5%; transform: rotate(-20deg); }
+  .tube-bg .tube:nth-child(5) { width: 220px; height: 2400px; background: var(--tube-purple); top: -400px; left: 50%; transform: rotate(25deg); }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: var(--tube-red);
+    padding: 0 2rem;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.15);
+  }
+
+  .nav-logo {
+    font-family: 'Lilita One', cursive;
+    font-size: 1.6rem;
+    color: var(--tube-yellow);
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  nav ul li a {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    transition: background 0.2s;
+  }
+
+  nav ul li a:hover { background: rgba(255,255,255,0.2); }
+
+  .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem 2rem;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: var(--tube-yellow);
+    color: var(--dark);
+    font-weight: 700;
+    padding: 0.4rem 1.2rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    animation: bounceIn 0.8s ease-out;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.15);
+    letter-spacing: 0.5px;
+  }
+
+  .hero h1 {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(4rem, 12vw, 10rem);
+    line-height: 0.95;
+    color: var(--tube-red);
+    text-shadow: 4px 4px 0 var(--tube-yellow), 8px 8px 0 rgba(0,0,0,0.1);
+    animation: heroSlide 1s ease-out;
+    letter-spacing: 2px;
+  }
+
+  .hero h1 span {
+    display: block;
+    color: var(--tube-blue);
+    text-shadow: 4px 4px 0 var(--tube-yellow), 8px 8px 0 rgba(0,0,0,0.1);
+  }
+
+  .hero-sub {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    color: #555;
+    max-width: 550px;
+    margin: 1.5rem auto 2rem;
+    font-weight: 500;
+    animation: fadeUp 1s ease-out 0.3s both;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 1s ease-out 0.5s both;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    padding: 1rem 2rem;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.15);
+  }
+
+  .btn:hover { transform: translateY(-3px); box-shadow: 4px 7px 0 rgba(0,0,0,0.15); }
+  .btn:active { transform: translateY(0); box-shadow: 2px 2px 0 rgba(0,0,0,0.15); }
+  .btn-primary { background: var(--tube-red); color: #fff; }
+  .btn-secondary { background: #fff; color: var(--dark); border: 3px solid var(--dark); }
+
+  .hero-photo {
+    margin-top: 3rem;
+    width: 100%;
+    max-width: 900px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 8px 8px 0 rgba(0,0,0,0.12);
+    animation: fadeUp 1s ease-out 0.7s both;
+    position: relative;
+    border: 5px solid var(--tube-yellow);
+  }
+
+  .hero-photo img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hero-photo-caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(26,18,48,0.85));
+    padding: 2rem 1.5rem 1rem;
+    color: #fff;
+    font-family: 'Lilita One', cursive;
+    font-size: 1.1rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  }
+
+  section { position: relative; z-index: 1; padding: 5rem 2rem; }
+
+  .section-title {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    text-align: center;
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+  }
+
+  .section-subtitle {
+    text-align: center;
+    font-size: 1.15rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    font-weight: 500;
+  }
+
+  /* ===== ORIGIN STORY ===== */
+  .origin-section {
+    background: linear-gradient(135deg, #2c1a4a, var(--dark));
+    color: #fff;
+    clip-path: polygon(0 0, 100% 3%, 100% 97%, 0 100%);
+    padding: 7rem 2rem;
+  }
+
+  .origin-section .section-title { color: var(--tube-yellow); text-shadow: 3px 3px 0 rgba(0,0,0,0.3); }
+  .origin-section .section-subtitle { color: rgba(255,255,255,0.7); }
+
+  .origin-content {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.88);
+  }
+
+  .origin-content p { margin-bottom: 1.2rem; }
+
+  .origin-year {
+    font-family: 'Bangers', cursive;
+    font-size: 1.8rem;
+    color: var(--tube-yellow);
+    display: inline;
+  }
+
+  .origin-address {
+    font-family: 'Lilita One', cursive;
+    color: var(--tube-orange);
+  }
+
+  /* ===== HOW IT WORKS ===== */
+  .how-it-works {
+    background: var(--tube-blue);
+    color: #fff;
+    clip-path: polygon(0 3%, 100% 0, 100% 97%, 0 100%);
+    padding: 7rem 2rem;
+  }
+
+  .how-it-works .section-title { color: var(--tube-yellow); text-shadow: 3px 3px 0 rgba(0,0,0,0.2); }
+  .how-it-works .section-subtitle { color: rgba(255,255,255,0.85); }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .step {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.3s;
+    border: 3px solid rgba(255,255,255,0.2);
+  }
+
+  .step:hover { transform: translateY(-8px); }
+  .step-number { font-family: 'Bangers', cursive; font-size: 3rem; color: var(--tube-yellow); text-shadow: 2px 2px 0 rgba(0,0,0,0.2); line-height: 1; }
+  .step-icon { font-size: 3rem; margin: 0.5rem 0; }
+  .step h3 { font-family: 'Lilita One', cursive; font-size: 1.4rem; margin-bottom: 0.5rem; }
+  .step p { font-size: 0.95rem; opacity: 0.9; line-height: 1.5; }
+
+  /* ===== KID QUOTES ===== */
+  .kid-quotes-section {
+    background: linear-gradient(135deg, var(--tube-pink), #d4328a);
+    color: #fff;
+    clip-path: polygon(0 3%, 100% 0, 100% 97%, 0 100%);
+    padding: 7rem 2rem;
+  }
+
+  .kid-quotes-section .section-title { color: var(--tube-yellow); text-shadow: 3px 3px 0 rgba(0,0,0,0.2); }
+  .kid-quotes-section .section-subtitle { color: rgba(255,255,255,0.85); }
+
+  .quotes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .kid-quote {
+    background: rgba(255,255,255,0.15);
+    border: 3px solid rgba(255,255,255,0.2);
+    border-radius: 24px;
+    padding: 2rem;
+    position: relative;
+    backdrop-filter: blur(10px);
+  }
+
+  .kid-quote::before {
+    content: '"';
+    font-family: 'Bangers', cursive;
+    font-size: 5rem;
+    color: var(--tube-yellow);
+    position: absolute;
+    top: -5px; left: 15px;
+    line-height: 1;
+    opacity: 0.5;
+  }
+
+  .kid-quote p {
+    font-size: 1rem;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 1rem;
+  }
+
+  .kid-quote-author {
+    font-family: 'Lilita One', cursive;
+    font-size: 1.1rem;
+    color: var(--tube-yellow);
+  }
+
+  .kid-quote-age {
+    font-size: 0.85rem;
+    opacity: 0.8;
+  }
+
+  .nolan-quote p {
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  /* ===== ZONES ===== */
+  .zones { max-width: 1100px; margin: 0 auto; }
+  .zones .section-title { color: var(--tube-purple); text-shadow: 3px 3px 0 rgba(155, 77, 255, 0.2); }
+
+  .zone-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .zone-card {
+    border-radius: 24px;
+    padding: 2rem;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    transition: transform 0.3s;
+    box-shadow: 6px 6px 0 rgba(0,0,0,0.12);
+  }
+
+  .zone-card:hover { transform: translateY(-6px) rotate(-1deg); }
+  .zone-card::before { content: ''; position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; border-radius: 50%; background: rgba(255,255,255,0.12); }
+  .zone-card::after { content: ''; position: absolute; bottom: -40px; left: -20px; width: 160px; height: 80px; border-radius: 999px; background: rgba(255,255,255,0.08); transform: rotate(-15deg); }
+
+  .zone-card.red { background: linear-gradient(135deg, #ff6b6b, var(--tube-red)); }
+  .zone-card.blue { background: linear-gradient(135deg, #5eb8ff, #1a6dd4); }
+  .zone-card.green { background: linear-gradient(135deg, #5ed98a, #28a745); }
+  .zone-card.yellow { background: linear-gradient(135deg, #ffe066, #e6ac00); color: var(--dark); }
+  .zone-card.purple { background: linear-gradient(135deg, #c78dff, #7b2df0); }
+  .zone-card.orange { background: linear-gradient(135deg, #ffad5c, #e67300); }
+
+  .zone-emoji { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  .zone-card h3 { font-family: 'Lilita One', cursive; font-size: 1.6rem; margin-bottom: 0.3rem; position: relative; z-index: 1; }
+  .zone-card p { font-size: 0.95rem; opacity: 0.92; line-height: 1.5; position: relative; z-index: 1; }
+  .zone-tag { display: inline-block; background: rgba(255,255,255,0.25); padding: 0.2rem 0.7rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700; margin-top: 0.7rem; text-transform: uppercase; letter-spacing: 1px; position: relative; z-index: 1; }
+
+  /* ===== SAFETY ===== */
+  .safety-section {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .safety-section .section-title { color: var(--tube-green); text-shadow: 3px 3px 0 rgba(60,187,87,0.2); }
+
+  .safety-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .safety-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    border: 3px solid #e8f5e9;
+    transition: transform 0.3s;
+  }
+
+  .safety-card:hover { transform: translateY(-4px); }
+
+  .safety-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+
+  .safety-card h4 {
+    font-family: 'Lilita One', cursive;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: var(--dark);
+  }
+
+  .safety-card p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #555;
+  }
+
+  .safety-disclaimer {
+    text-align: center;
+    max-width: 700px;
+    margin: 2rem auto 0;
+    font-size: 0.8rem;
+    color: #999;
+    font-style: italic;
+  }
+
+  /* ===== STATS BANNER ===== */
+  .stats-banner {
+    background: var(--tube-yellow);
+    padding: 3rem 2rem;
+    clip-path: polygon(0 8%, 100% 0, 100% 92%, 0 100%);
+  }
+
+  .stats-grid {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .stat { text-align: center; }
+  .stat-number { font-family: 'Bangers', cursive; font-size: 3.5rem; color: var(--tube-red); text-shadow: 2px 2px 0 rgba(0,0,0,0.1); line-height: 1; }
+  .stat-label { font-weight: 600; color: var(--dark); font-size: 1rem; margin-top: 0.3rem; }
+
+  /* ===== TUBE MENU ===== */
+  .menu-section {
+    background: linear-gradient(135deg, var(--tube-orange), #e67300);
+    color: #fff;
+    clip-path: polygon(0 0, 100% 3%, 100% 100%, 0 97%);
+    padding: 7rem 2rem;
+  }
+
+  .menu-section .section-title { color: #fff; text-shadow: 3px 3px 0 rgba(0,0,0,0.2); }
+  .menu-section .section-subtitle { color: rgba(255,255,255,0.85); }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .menu-item {
+    background: rgba(255,255,255,0.15);
+    border: 3px solid rgba(255,255,255,0.2);
+    border-radius: 24px;
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.3s;
+    backdrop-filter: blur(10px);
+  }
+
+  .menu-item:hover { transform: translateY(-6px) rotate(1deg); }
+
+  .menu-emoji { font-size: 3rem; margin-bottom: 0.5rem; }
+
+  .menu-item h4 {
+    font-family: 'Lilita One', cursive;
+    font-size: 1.3rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .menu-item p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+  }
+
+  .menu-price {
+    font-family: 'Bangers', cursive;
+    font-size: 1.8rem;
+    color: var(--tube-yellow);
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+  }
+
+  .menu-sponsor {
+    text-align: center;
+    max-width: 600px;
+    margin: 2.5rem auto 0;
+    padding: 1.5rem 2rem;
+    background: rgba(255,255,255,0.12);
+    border-radius: 20px;
+    border: 3px solid rgba(255,255,255,0.2);
+  }
+
+  .menu-sponsor h4 {
+    font-family: 'Lilita One', cursive;
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+    color: var(--tube-yellow);
+  }
+
+  .menu-sponsor p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    line-height: 1.5;
+  }
+
+  .poppi-badge {
+    display: inline-block;
+    background: var(--tube-yellow);
+    color: var(--dark);
+    font-family: 'Lilita One', cursive;
+    padding: 0.3rem 1rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    margin-top: 0.8rem;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+  }
+
+  /* ===== MASCOT ===== */
+  .mascot-section {
+    background: linear-gradient(135deg, var(--tube-green), #28a745);
+    color: #fff;
+    clip-path: polygon(0 3%, 100% 0, 100% 97%, 0 100%);
+    padding: 7rem 2rem;
+  }
+
+  .mascot-section .section-title { color: var(--tube-yellow); text-shadow: 3px 3px 0 rgba(0,0,0,0.2); }
+  .mascot-section .section-subtitle { color: rgba(255,255,255,0.85); }
+
+  .mascot-content {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    max-width: 900px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .mascot-image {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 6px solid var(--tube-yellow);
+    box-shadow: 6px 6px 0 rgba(0,0,0,0.15);
+    flex-shrink: 0;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mascot-image img { width: 100%; height: 100%; object-fit: cover; }
+
+  .mascot-info { flex: 1; min-width: 280px; }
+
+  .mascot-info h3 {
+    font-family: 'Bangers', cursive;
+    font-size: 3rem;
+    color: var(--tube-yellow);
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+    line-height: 1.1;
+  }
+
+  .mascot-info .mascot-aka {
+    font-family: 'Lilita One', cursive;
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin-bottom: 1rem;
+  }
+
+  .mascot-info p { font-size: 1.05rem; line-height: 1.6; opacity: 0.92; margin-bottom: 1rem; }
+
+  .mascot-facts { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+
+  .mascot-fact {
+    background: rgba(255,255,255,0.2);
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    border: 2px solid rgba(255,255,255,0.3);
+  }
+
+  .legal-notice {
+    background: rgba(0,0,0,0.2);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    border-left: 4px solid var(--tube-yellow);
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .legal-notice h4 {
+    font-family: 'Lilita One', cursive;
+    color: var(--tube-yellow);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .legal-notice p {
+    font-size: 0.9rem;
+    opacity: 0.85;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+  }
+
+  .legal-notice p:last-child { margin-bottom: 0; }
+
+  /* ===== LOCATIONS ===== */
+  .locations-section { max-width: 1100px; margin: 0 auto; }
+  .locations-section .section-title { color: var(--tube-blue); text-shadow: 3px 3px 0 rgba(43,124,233,0.2); }
+
+  .locations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+
+  .location-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+    border: 3px solid #f0e8d8;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+
+  .location-card:hover { transform: translateY(-4px); border-color: var(--tube-blue); }
+
+  .location-card h4 { font-family: 'Lilita One', cursive; font-size: 1.15rem; margin-bottom: 0.2rem; color: var(--dark); }
+  .location-city { font-size: 0.9rem; color: #888; font-weight: 500; }
+  .location-detail { font-size: 0.8rem; color: #aaa; font-style: italic; margin-top: 0.2rem; }
+
+  .location-meta { display: flex; gap: 0.6rem; margin-top: 0.6rem; flex-wrap: wrap; }
+
+  .location-tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .location-tag.open { background: #d4f5dc; color: #1a7a32; }
+  .location-tag.new { background: var(--tube-yellow); color: var(--dark); }
+  .location-tag.coming { background: #e8e0f5; color: var(--tube-purple); }
+  .location-tag.flagship { background: #ffe0e0; color: var(--tube-red); }
+  .location-tag.original { background: #fff3cd; color: #856404; }
+  .location-tag.pods { background: #f0f0f0; color: #666; }
+  .location-tag.international { background: #d4e8f5; color: #1a5276; }
+  .location-tag.classified { background: #333; color: #ccc; }
+
+  /* ===== PRICING ===== */
+  .pricing {
+    background: var(--dark);
+    color: #fff;
+    clip-path: polygon(0 3%, 100% 0, 100% 100%, 0 100%);
+    padding: 7rem 2rem 5rem;
+  }
+
+  .pricing .section-title { color: var(--tube-yellow); text-shadow: 3px 3px 0 rgba(0,0,0,0.3); }
+  .pricing .section-subtitle { color: rgba(255,255,255,0.6); }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .price-card {
+    background: rgba(255,255,255,0.06);
+    border: 3px solid rgba(255,255,255,0.1);
+    border-radius: 24px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    transition: transform 0.3s, border-color 0.3s;
+    position: relative;
+  }
+
+  .price-card:hover { transform: translateY(-8px); border-color: var(--tube-yellow); }
+  .price-card.featured { border-color: var(--tube-yellow); background: rgba(255, 210, 51, 0.08); }
+
+  .price-card.featured::after {
+    content: '⭐ MOST POPULAR';
+    position: absolute;
+    top: -14px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--tube-yellow);
+    color: var(--dark);
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 0.3rem 1rem;
+    border-radius: 999px;
+    letter-spacing: 1px;
+  }
+
+  .price-name { font-family: 'Lilita One', cursive; font-size: 1.5rem; margin-bottom: 0.5rem; }
+  .price-amount { font-family: 'Bangers', cursive; font-size: 3.5rem; color: var(--tube-yellow); line-height: 1; }
+  .price-period { font-size: 0.9rem; color: rgba(255,255,255,0.5); margin-bottom: 1.5rem; }
+  .price-features { list-style: none; text-align: left; margin-bottom: 2rem; }
+  .price-features li { padding: 0.4rem 0; font-size: 0.95rem; color: rgba(255,255,255,0.8); }
+  .price-features li::before { content: '✅ '; }
+
+  footer {
+    background: var(--dark);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.85rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  footer a { color: var(--tube-yellow); text-decoration: none; }
+  .footer-tubes { font-size: 1.5rem; margin-bottom: 0.5rem; letter-spacing: 4px; }
+
+  @keyframes bounceIn { 0% { transform: scale(0.5); opacity: 0; } 60% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
+  @keyframes heroSlide { 0% { transform: translateY(40px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+  @keyframes fadeUp { 0% { transform: translateY(20px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+
+  ::-webkit-scrollbar { width: 12px; }
+  ::-webkit-scrollbar-track { background: var(--bg-cream); }
+  ::-webkit-scrollbar-thumb { background: var(--tube-red); border-radius: 999px; border: 3px solid var(--bg-cream); }
+
+  @media (max-width: 768px) {
+    nav ul { display: none; }
+    .stats-grid { gap: 1.5rem; }
+    .hero-photo img { height: 260px; }
+    .how-it-works, .pricing, .mascot-section, .origin-section, .kid-quotes-section, .menu-section { clip-path: none; padding: 4rem 1.5rem; }
+    .stats-banner { clip-path: none; }
+    .mascot-image { width: 200px; height: 200px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="tube-bg">
+  <div class="tube"></div>
+  <div class="tube"></div>
+  <div class="tube"></div>
+  <div class="tube"></div>
+  <div class="tube"></div>
+</div>
+
+<nav>
+  <div class="nav-logo">
+    <span>🟡</span> HOMEWORK TUBES
+  </div>
+  <ul>
+    <li><a href="#story">Our Story</a></li>
+    <li><a href="#zones">Tube Zones</a></li>
+    <li><a href="#menu">Tube Menu</a></li>
+    <li><a href="#locations">Locations</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#" class="btn btn-primary" style="font-size:0.9rem;padding:0.5rem 1.2rem;box-shadow:none;">Enroll Now</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-badge">🎉 SERVING KIDS SINCE 1964 — 47 LOCATIONS WORLDWIDE</div>
+  <h1>HOMEWORK<span>TUBES</span></h1>
+  <p class="hero-sub">Drop 'em off. They crawl through tubes. They do their homework. You pick 'em up. Everybody wins.</p>
+  <div class="hero-cta">
+    <a href="#pricing" class="btn btn-primary">🚀 Enroll Your Kid</a>
+    <a href="#zones" class="btn btn-secondary">🗺️ Explore the Tubes</a>
+  </div>
+  <div class="hero-photo">
+    <img src="hwt.jpeg" alt="Inside a Homework Tubes location — kids doing homework inside colorful tubes in a massive warehouse" />
+    <div class="hero-photo-caption">📸 Homework Tubes — Los Gatos, CA Original Location (est. 1964)</div>
+  </div>
+</section>
+
+<!-- Atlantis Feature -->
+<section style="background:linear-gradient(135deg, #0077b6, #023e8a); color:#fff; clip-path:polygon(0 0, 100% 3%, 100% 97%, 0 100%); padding:7rem 2rem; position:relative; z-index:1;" id="atlantis">
+  <h2 class="section-title" style="color:var(--tube-yellow); text-shadow:3px 3px 0 rgba(0,0,0,0.3);">🌊 NOW OPEN: HOMEWORK TUBES ATLANTIS</h2>
+  <p class="section-subtitle" style="color:rgba(255,255,255,0.85);">Our newest and most ambitious location yet.</p>
+  <div style="max-width:900px; margin:0 auto;">
+    <div style="border-radius:24px; overflow:hidden; border:5px solid var(--tube-yellow); box-shadow:8px 8px 0 rgba(0,0,0,0.15); margin-bottom:2rem;">
+      <img src="atlantis.jpeg" alt="Homework Tubes Atlantis — partially underwater location in the Bahamas" style="width:100%; height:380px; object-fit:cover; display:block;" />
+    </div>
+    <div style="max-width:750px; margin:0 auto; text-align:center;">
+      <p style="font-size:1.15rem; line-height:1.7; margin-bottom:1.2rem; opacity:0.92;">Located off the coast of Nassau, Bahamas, <strong>Homework Tubes Atlantis</strong> is the world's first partially underwater homework tube facility. The upper level features 180 standard study pods with ocean views. The lower level descends 12 feet below the surface of the Caribbean Sea, with transparent tubes that allow children to do their homework while surrounded by tropical fish, sea turtles, and the occasional nurse shark.</p>
+      <p style="font-size:1.15rem; line-height:1.7; margin-bottom:1.2rem; opacity:0.92;">Homework Tubes Atlantis is perfect for parents who are forced to take their children on vacation but also want to force them to do homework on vacation. Your family gets the beach. Your kids get the tubes. Everyone gets what they deserve.</p>
+      <p style="font-size:1.15rem; line-height:1.7; margin-bottom:1.5rem; opacity:0.92;">The Atlantis location features an expanded Victory Slide that launches children directly into a shallow lagoon, a dedicated Underwater Reading Reef with real reef, and a Tube Menu featuring locally sourced Tube of Conch Fritter (market price).</p>
+      <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+        <span style="background:rgba(255,255,255,0.2); padding:0.5rem 1.2rem; border-radius:999px; font-weight:700; font-size:0.9rem; border:2px solid rgba(255,255,255,0.3);">🐠 12 ft Underwater</span>
+        <span style="background:rgba(255,255,255,0.2); padding:0.5rem 1.2rem; border-radius:999px; font-weight:700; font-size:0.9rem; border:2px solid rgba(255,255,255,0.3);">🏝️ Nassau, Bahamas</span>
+        <span style="background:rgba(255,255,255,0.2); padding:0.5rem 1.2rem; border-radius:999px; font-weight:700; font-size:0.9rem; border:2px solid rgba(255,255,255,0.3);">📚 180 Pods</span>
+        <span style="background:rgba(255,255,255,0.2); padding:0.5rem 1.2rem; border-radius:999px; font-weight:700; font-size:0.9rem; border:2px solid rgba(255,255,255,0.3);">🦈 Sharks (Nurse Only)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Origin Story -->
+<section class="origin-section" id="story">
+  <h2 class="section-title">THE HOMEWORK TUBES STORY</h2>
+  <p class="section-subtitle">From one tube in a garage to 2.4 miles of tubes across the world.</p>
+  <div class="origin-content">
+    <p>It all started in <span class="origin-year">1964</span> on <span class="origin-address">Blossom Hill Road in Los Gatos, California</span>, when retired industrial plumber and amateur dog psychiatrist Sam Grant purchased a vacant fruit packing warehouse and had what he later called "the only good idea I ever had."</p>
+    <p>Sam had noticed that his own kids did their homework faster when they were inside the large drainage pipes he stored in his yard. He couldn't explain it. Neither could his wife. Their pediatrician said, "I don't think that's true." That was good enough for Sam.</p>
+    <p>He installed 340 feet of interconnected polyethylene tubes inside the warehouse, placed small desks and battery-powered lamps at various junctions, and opened the doors to the neighborhood. He charged 25 cents per child. Within a week, he had a line around the block. Within two weeks, a second tube had to be added after a child got wedged at a junction for forty-five minutes during peak homework hours. The incident — later known internally as "The First Wedging" — led to the adoption of wider-gauge tubes, which remain the Homework Tubes standard to this day.</p>
+    <p>By 1978, there were three locations in the Bay Area. By 1992, Homework Tubes had gone national, expanding to twelve states and introducing the Tube Tutor™ intercom system. The original Los Gatos warehouse on Blossom Hill Road is still open — though the tubes are much nicer now, and they've replaced the battery-powered lamps with actual electricity.</p>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section class="how-it-works" id="how">
+  <h2 class="section-title">HOW THE TUBES WORK</h2>
+  <p class="section-subtitle">It's as easy as crawl, settle, study, done.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-number">1</div>
+      <div class="step-icon">🎒</div>
+      <h3>Drop Off</h3>
+      <p>Parents drop kids at the Tube Hatch between 3–5 PM. We scan their backpack and load their assignments into The System™.</p>
+    </div>
+    <div class="step">
+      <div class="step-number">2</div>
+      <div class="step-icon">🔵</div>
+      <h3>Enter the Tubes</h3>
+      <p>Kids pick a color-coded tube based on their subject. Red for math, blue for reading, green for science. They crawl to their study pod.</p>
+    </div>
+    <div class="step">
+      <div class="step-number">3</div>
+      <div class="step-icon">📚</div>
+      <h3>Pod Study Time</h3>
+      <p>Each tube leads to a cozy, lit study pod with a desk, supplies, and a Tube Tutor™ available via intercom for help.</p>
+    </div>
+    <div class="step">
+      <div class="step-number">4</div>
+      <div class="step-icon">⚡</div>
+      <h3>Fast Pass &amp; VIP Tubes</h3>
+      <p>Tired of tube traffic? Tube Fast Pass™ holders skip the crawl queue and enter through express tubes with 40% fewer junctions. VIP Tubes are extra wide, climate-controlled, and contain 10% less glass.</p>
+    </div>
+    <div class="step">
+      <div class="step-number">5</div>
+      <div class="step-icon">🎉</div>
+      <h3>Tube Slide Out</h3>
+      <p>When homework is done and verified, kids earn Tube Tokens™ and exit via the celebratory Victory Slide into the pickup zone.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Kid Quotes -->
+<section class="kid-quotes-section" id="quotes">
+  <h2 class="section-title">WHAT THE KIDS SAY</h2>
+  <p class="section-subtitle">We asked real Homework Tubes kids what they think. We did not edit their answers.</p>
+  <div class="quotes-grid">
+    <div class="kid-quote">
+      <p>"I like Homework Tubes because I like homework and I like tubes."</p>
+      <div class="kid-quote-author">Magnus</div>
+      <div class="kid-quote-age">Age 13</div>
+    </div>
+    <div class="kid-quote">
+      <p>"I have gotten lost in the tubes six times this week and that's OK because I have a very big bladder."</p>
+      <div class="kid-quote-author">Theo</div>
+      <div class="kid-quote-age">Age 13</div>
+    </div>
+    <div class="kid-quote nolan-quote">
+      <p>"One time I was in the tubes and there was another guy in the tubes and I didn't know if he was doing homework or not, but it turned out he was a guy who actually wandered into the tubes and he got stuck, but he didn't know where he was supposed to go because he was actually looking for an H&R Block because apparently he can't do his taxes, but he thought that maybe he could do his taxes in the tubes, but they have a really strict rule against that and I know that firsthand because when I tried to do some accounting work for my Fortnite TikTok page they told me this is strictly for homework, not for business."</p>
+      <div class="kid-quote-author">Nolan</div>
+      <div class="kid-quote-age">Age 13</div>
+    </div>
+    <div class="kid-quote">
+      <p>"I heard that someone got murdered at Homework Tubes because they were blocking a tube. You can't block tubes."</p>
+      <div class="kid-quote-author">Lucas</div>
+      <div class="kid-quote-age">Age 11</div>
+    </div>
+    <div class="kid-quote">
+      <p>"I like to crawl outside of the tubes. My favorite part is opening the trap door above the hippo sanctuary."</p>
+      <div class="kid-quote-author">Brandon</div>
+      <div class="kid-quote-age">Age 10</div>
+    </div>
+    <div class="kid-quote">
+      <p>"What in the world are you talking about, Dad? This is the dumbest thing I've ever seen in my life. You actually spent time on this? Are you serious? This is what you spend your time doing? Don't you have a job or a family?"</p>
+      <div class="kid-quote-author">Evie</div>
+      <div class="kid-quote-age">Age 14</div>
+    </div>
+  </div>
+</section>
+
+<!-- Tube Zones -->
+<section id="zones">
+  <div class="zones">
+    <h2 class="section-title">EXPLORE THE TUBE ZONES</h2>
+    <p class="section-subtitle">Named after the neighborhoods where it all began. Each zone is designed for maximum focus and minimum boredom.</p>
+    <div class="zone-grid">
+      <div class="zone-card red">
+        <div class="zone-emoji">🔢</div>
+        <h3>The Los Gatos Math Maze</h3>
+        <p>A twisting red tube network where every junction has a math problem. Solve it to unlock the next section. Pods have whiteboards on every surface.</p>
+        <span class="zone-tag">Grades K-8</span>
+      </div>
+      <div class="zone-card blue">
+        <div class="zone-emoji">📖</div>
+        <h3>The Sausalito Reading Reef</h3>
+        <p>Soft blue tubes lead to underwater-themed pods with bean bags, reading lights shaped like anglerfish, and total silence enforced by the Reef Warden.</p>
+        <span class="zone-tag">All Ages</span>
+      </div>
+      <div class="zone-card green">
+        <div class="zone-emoji">🔬</div>
+        <h3>The Palo Alto Science Spirals</h3>
+        <p>Transparent green tubes so kids can see the others studying around them. Pods include mini lab stations with safe experiment kits.</p>
+        <span class="zone-tag">Grades 3-8</span>
+      </div>
+      <div class="zone-card yellow">
+        <div class="zone-emoji">✏️</div>
+        <h3>The Berkeley Writing Hive</h3>
+        <p>Hexagonal yellow pods connected by honeycomb tubes. Gentle buzzing ambient sound proven to boost creative writing output by 340%.*</p>
+        <span class="zone-tag">*Not proven</span>
+      </div>
+      <div class="zone-card purple">
+        <div class="zone-emoji">🌐</div>
+        <h3>The San Jose History Tunnels</h3>
+        <p>Tubes decorated to look like time periods. Crawl through ancient Egypt to reach your pod. Each pod has historical artifacts (replicas) on display.</p>
+        <span class="zone-tag">Grades 2-8</span>
+      </div>
+      <div class="zone-card orange">
+        <div class="zone-emoji">🏆</div>
+        <h3>The Half Moon Bay Victory Tube</h3>
+        <p>Not a study zone — this is the reward! A giant spiral slide tube with light effects and confetti that shoots kids into the pickup lobby when they're done.</p>
+        <span class="zone-tag">The Best Part</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Safety -->
+<section id="safety">
+  <div class="safety-section">
+    <h2 class="section-title">TUBE SAFETY</h2>
+    <p class="section-subtitle">Your child's safety is our #1 priority.</p>
+    <div class="safety-grid">
+      <div class="safety-card">
+        <div class="safety-icon">⛑️</div>
+        <h4>Complimentary Tube Helmets</h4>
+        <p>All children are offered a certified Tube Helmet™ upon entry to prevent concussions caused by going headfirst into another child at a tube junction. Helmets are also recommended for the trap door sections, where an unexpected drop onto the cement staging area below has been documented on more than one occasion.</p>
+      </div>
+      <div class="safety-card">
+        <div class="safety-icon">🪟</div>
+        <h4>25% Less Glass</h4>
+        <p>Following a comprehensive 2023 tube audit, we are proud to announce that our tubes now contain 25% less glass than they did in 2022. This is an ongoing effort and we hope to continue reducing glass content year over year. We appreciate your patience.</p>
+      </div>
+      <div class="safety-card">
+        <div class="safety-icon">💪</div>
+        <h4>The Broken Glass Tube</h4>
+        <p>The exception to the above. Introduced in 2024, the Broken Glass Tube is a new addition designed for kids who, in the words of the suggestion box entry that inspired it, "need to learn a little bit of toughness." Long pants and closed-toed shoes are required. Waivers are available at the front desk.</p>
+      </div>
+      <div class="safety-card">
+        <div class="safety-icon">🦺</div>
+        <h4>The Buddy System</h4>
+        <p>After The First Wedging of 1964 and several subsequent wedgings throughout the '70s and '80s, all children under 7 are now required to enter the tubes with a designated Tube Buddy. Tube Buddies are assigned at random. Many lasting friendships have been formed this way. Some rivalries, too.</p>
+      </div>
+    </div>
+    <p class="safety-disclaimer">Homework Tubes™ is not responsible for scrapes, bumps, bruises, disorientation, temporary hearing loss from whistles, or emotional distress caused by the Broken Glass Tube. All children tube at their own risk.</p>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="stats-banner">
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="stat-number">2.4 MI</div>
+      <div class="stat-label">Total Tube Length</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">847</div>
+      <div class="stat-label">Study Pods</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">12K</div>
+      <div class="stat-label">Kids Tubed Daily</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">94%</div>
+      <div class="stat-label">Homework Completion Rate</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">∞</div>
+      <div class="stat-label">Fun</div>
+    </div>
+  </div>
+</section>
+
+<!-- Tube Menu -->
+<section class="menu-section" id="menu">
+  <h2 class="section-title">🍽️ THE TUBE MENU</h2>
+  <p class="section-subtitle">All food at Homework Tubes comes in tubes. This is non-negotiable.</p>
+  <div class="menu-grid">
+    <div class="menu-item">
+      <div class="menu-emoji">🫠</div>
+      <h4>Tube of Paste</h4>
+      <p>It's paste. It comes in a tube. Available in four amazing flavors: Original, Tube, Paste, and Paste Free.</p>
+      <div class="menu-price">$3.49</div>
+    </div>
+    <div class="menu-item">
+      <div class="menu-emoji">🍝</div>
+      <h4>Tube of Lasagna</h4>
+      <p>A full serving of lasagna compressed into a squeezable tube. All the layers are there. Ricotta, meat sauce, noodles — everything accounted for. Not made with real tomatoes. Just squeeze and enjoy.</p>
+      <div class="menu-price">$6.99</div>
+    </div>
+    <div class="menu-item">
+      <div class="menu-emoji">🍋</div>
+      <h4>Tube of Lemonade</h4>
+      <p>Fresh-squeezed lemonade in a sealed tube. Spill-proof until opened. You can bring it into the tubes.</p>
+      <div class="menu-price">$2.99</div>
+    </div>
+    <div class="menu-item">
+      <div class="menu-emoji">🥩</div>
+      <h4>Tube of Assorted Meat Product</h4>
+      <p>A tube containing an assortment of meat product. While this does contain meat, we are legally required to say that it does not contain meat.</p>
+      <div class="menu-price"><span style="text-decoration:line-through;opacity:0.5;font-size:1.2rem;">$4.99</span> $7.99 <span style="font-family:'Fredoka',sans-serif;font-size:0.7rem;background:var(--tube-red);color:#fff;padding:0.15rem 0.5rem;border-radius:999px;vertical-align:middle;margin-left:0.3rem;">NOW WITH TARIFF</span></div>
+    </div>
+    <div class="menu-item" style="grid-column: 1 / -1; max-width: 500px; margin: 0 auto; border-color: var(--tube-yellow); background: rgba(255,255,255,0.25);">
+      <div class="menu-emoji">🔥🔥</div>
+      <h4 style="font-size:1.6rem;">NEW: 2Tubez™</h4>
+      <p style="font-size:1rem;">The most radical tube-based food product ever invented. Two different flavors, side by side, in one tube. Our first flavor combination is an absolute classic: <strong>Soup &amp; Water.</strong></p>
+      <div class="menu-price">$5.99</div>
+      <div style="margin-top:1rem; background:rgba(0,0,0,0.15); border-radius:16px; padding:1rem 1.2rem; text-align:left;">
+        <p style="font-size:0.95rem; margin:0; opacity:0.95;">"I love soup. I only eat the soup side."</p>
+        <div style="font-family:'Lilita One',cursive; color:var(--tube-yellow); margin-top:0.4rem;">— Nolan, Age 13</div>
+      </div>
+    </div>
+  </div>
+  <div class="menu-sponsor">
+    <h4>🥤 Official Beverage Sponsor</h4>
+    <p>All Homework Tubes locations are proudly sponsored by <strong>Poppi</strong>. Due to the terms of our exclusive tube-format agreement, Poppi is only available as <strong>Poppi Tube™</strong> — a squeezable tube of Poppi prebiotic soda. Same great Poppi. Tube format. Available in all Poppi flavors.</p>
+    <div class="poppi-badge">🫧 POPPI TUBE™ — $3.49</div>
+  </div>
+</section>
+
+<!-- Mascot -->
+<section class="mascot-section" id="mascot">
+  <h2 class="section-title">MEET TUBEY!</h2>
+  <p class="section-subtitle">Our official mascot and Chief Crawl Officer.</p>
+  <div class="mascot-content">
+    <div class="mascot-image">
+      <img src="https://image.made-in-china.com/2f0j00EFifhHqnVGbS/Cartoon-Green-Worm-Mascot-Costume.jpg" alt="Tubey the Worm — the official Homework Tubes mascot" />
+    </div>
+    <div class="mascot-info">
+      <h3>TUBEY THE WORM</h3>
+      <div class="mascot-aka">a.k.a. "The Green Machine" · Est. 2019</div>
+      <p>Tubey is a 6-foot-tall bookworm who lives inside the tubes and pops out to high-five kids who finish their homework. He smells like fresh erasers and optimism. He has his own line of plush toys available at the Tube Shop.</p>
+      <p>Tubey appears at every grand opening, birthday party, and whenever a kid finishes all their homework for the week (Tubey Tuesdays™).</p>
+      <div class="mascot-facts">
+        <span class="mascot-fact">🎂 Birthday: March 14 (Pi Day)</span>
+        <span class="mascot-fact">📏 Height: 6'2"</span>
+        <span class="mascot-fact">💚 Favorite Color: Tube Green</span>
+        <span class="mascot-fact">📖 Favorite Subject: "All of them!"</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="legal-notice">
+    <h4>⚠️ Important Notices Regarding Tubey</h4>
+    <p><strong>Homework Assistance Policy:</strong> As of March 2023, Tubey is no longer permitted to complete, assist with, or provide answers to children's homework assignments. This policy was implemented after an internal review revealed that Tubey (specifically, the performer inside the Tubey suit at the Schaumburg, IL location) had been doing kids' math homework for them for approximately four months. Seventeen report cards were affected. We apologize to the parents and to the Schaumburg Unified School District.</p>
+    <p><strong>Catchphrase Discontinuation:</strong> Tubey's signature catchphrase, <em>"Let's get tubular!"</em> has been permanently retired effective June 2024. This decision was made on the advice of legal counsel following an incident at the Paramus, NJ location in which a Tubey performer used the phrase while forcefully shoving an adult man back into a tube the man was trying to exit. The man, who had entered the tubes by mistake, filed a civil complaint. The matter was settled out of court for an undisclosed amount. Tubey no longer speaks at events and communicates exclusively through enthusiastic waving.</p>
+    <p><strong>All Tubey performers now undergo a 40-hour de-escalation training program.</strong></p>
+  </div>
+</section>
+
+<!-- Locations -->
+<section id="locations">
+  <div class="locations-section">
+    <h2 class="section-title">FIND YOUR NEAREST TUBE</h2>
+    <p class="section-subtitle">47 locations and counting. We're expanding fast — like a tube that won't stop growing.</p>
+    <div class="locations-grid">
+      <div class="location-card">
+        <h4>Homework Tubes Los Gatos</h4>
+        <div class="location-city">Los Gatos, CA</div>
+        <div class="location-detail">Blossom Hill Rd · Original Location · Est. 1964</div>
+        <div class="location-meta">
+          <span class="location-tag original">Original</span>
+          <span class="location-tag open">Open</span>
+          <span class="location-tag pods">86 Pods</span>
+        </div>
+      </div>
+      <div class="location-card">
+        <h4>Homework Tubes Plano</h4>
+        <div class="location-city">Plano, TX</div>
+        <div class="location-meta">
+          <span class="location-tag flagship">Flagship</span>
+          <span class="location-tag open">Open</span>
+          <span class="location-tag pods">212 Pods</span>
+        </div>
+      </div>
+      <div class="location-card" style="border-color:var(--tube-blue); background:linear-gradient(135deg, #e6f3ff, #fff);">
+        <h4>Homework Tubes Atlantis</h4>
+        <div class="location-city">Nassau, Bahamas</div>
+        <div class="location-detail">Partially underwater · Our newest location</div>
+        <div class="location-meta">
+          <span class="location-tag new">New!</span>
+          <span class="location-tag international">International</span>
+          <span class="location-tag open">Open</span>
+          <span class="location-tag pods">180 Pods</span>
+        </div>
+      </div>
+      <div class="location-card">
+        <h4>Homework Tubes Schaumburg</h4>
+        <div class="location-city">Schaumburg, IL</div>
+        <div class="location-detail">Site of the 2023 Tubey Homework Incident</div>
+        <div class="location-meta">
+          <span class="location-tag open">Open</span>
+          <span class="location-tag pods">176 Pods</span>
+        </div>
+      </div>
+      <div class="location-card">
+        <h4>Homework Tubes Paramus</h4>
+        <div class="location-city">Paramus, NJ</div>
+        <div class="location-detail">Site of the 2024 "Let's Get Tubular" Incident</div>
+        <div class="location-meta">
+          <span class="location-tag open">Open</span>
+          <span class="location-tag pods">160 Pods</span>
+        </div>
+      </div>
+      <div class="location-card">
+        <h4>Homework Tubes Irvine</h4>
+        <div class="location-city">Irvine, CA</div>
+        <div class="location-meta">
+          <span class="location-tag flagship">Flagship</span>
+          <span class="location-tag open">Open</span>
+          <span class="location-tag pods">204 Pods</span>
+        </div>
+      </div>
+      <div class="location-card">
+        <h4>Homework Tubes Glendale</h4>
+        <div class="location-city">Glendale, AZ</div>
+        <div class="location-meta">
+          <span class="location-tag open">Open</span>
+          <span class="location-tag pods">148 Pods</span>
+        </div>
+      </div>
+      <div class="location-card">
+        <h4>Homework Tubes Naperville</h4>
+        <div class="location-city">Naperville, IL</div>
+        <div class="location-meta">
+          <span class="location-tag open">Open</span>
+          <span class="location-tag pods">140 Pods</span>
+        </div>
+      </div>
+      <div class="location-card">
+        <h4>Homework Tubes Frisco</h4>
+        <div class="location-city">Frisco, TX</div>
+        <div class="location-meta">
+          <span class="location-tag open">Open</span>
+          <span class="location-tag pods">190 Pods</span>
+        </div>
+      </div>
+      <div class="location-card">
+        <h4>Homework Tubes Overland Park</h4>
+        <div class="location-city">Overland Park, KS</div>
+        <div class="location-meta">
+          <span class="location-tag open">Open</span>
+          <span class="location-tag pods">118 Pods</span>
+        </div>
+      </div>
+      <div class="location-card">
+        <h4>Homework Tubes Cary</h4>
+        <div class="location-city">Cary, NC</div>
+        <div class="location-meta">
+          <span class="location-tag open">Open</span>
+          <span class="location-tag pods">130 Pods</span>
+        </div>
+      </div>
+      <div class="location-card">
+        <h4>Homework Tubes Chandler</h4>
+        <div class="location-city">Chandler, AZ</div>
+        <div class="location-meta">
+          <span class="location-tag new">New!</span>
+          <span class="location-tag open">Open</span>
+          <span class="location-tag pods">168 Pods</span>
+        </div>
+      </div>
+      <div class="location-card">
+        <h4>Homework Tubes Maple Grove</h4>
+        <div class="location-city">Maple Grove, MN</div>
+        <div class="location-meta">
+          <span class="location-tag new">New!</span>
+          <span class="location-tag open">Open</span>
+          <span class="location-tag pods">144 Pods</span>
+        </div>
+      </div>
+      <div class="location-card">
+        <h4>Homework Tubes Tehran</h4>
+        <div class="location-city">Tehran, Iran</div>
+        <div class="location-detail">Our first Middle Eastern location</div>
+        <div class="location-meta">
+          <span class="location-tag international">International</span>
+          <span class="location-tag open">Open</span>
+          <span class="location-tag pods">310 Pods</span>
+        </div>
+      </div>
+      <div class="location-card">
+        <h4>Homework Tubes Caracas</h4>
+        <div class="location-city">Caracas, Venezuela</div>
+        <div class="location-detail">Largest tube system in South America</div>
+        <div class="location-meta">
+          <span class="location-tag international">International</span>
+          <span class="location-tag open">Open</span>
+          <span class="location-tag pods">274 Pods</span>
+        </div>
+      </div>
+      <div class="location-card">
+        <h4>Homework Tubes Nome</h4>
+        <div class="location-city">Nome, AK</div>
+        <div class="location-detail">Heated tubes · Open seasonally</div>
+        <div class="location-meta">
+          <span class="location-tag open">Open</span>
+          <span class="location-tag pods">34 Pods</span>
+        </div>
+      </div>
+      <div class="location-card">
+        <h4>Homework Tubes Stanley</h4>
+        <div class="location-city">Stanley, Falkland Islands</div>
+        <div class="location-detail">Population: 3,480 · Tubes: 112</div>
+        <div class="location-meta">
+          <span class="location-tag international">International</span>
+          <span class="location-tag open">Open</span>
+          <span class="location-tag pods">112 Pods</span>
+        </div>
+      </div>
+      <div class="location-card">
+        <h4>Homework Tubes Pyongyang</h4>
+        <div class="location-city">Pyongyang, DPRK</div>
+        <div class="location-detail">Status unclear · Mail returned unopened</div>
+        <div class="location-meta">
+          <span class="location-tag classified">Classified</span>
+          <span class="location-tag pods">??? Pods</span>
+        </div>
+      </div>
+      <div class="location-card">
+        <h4>Homework Tubes McMurdo</h4>
+        <div class="location-city">McMurdo Station, Antarctica</div>
+        <div class="location-detail">Tubes are outdoors · Dress warm</div>
+        <div class="location-meta">
+          <span class="location-tag international">International</span>
+          <span class="location-tag open">Open</span>
+          <span class="location-tag pods">8 Pods</span>
+        </div>
+      </div>
+      <div class="location-card">
+        <h4>Homework Tubes Marietta</h4>
+        <div class="location-city">Marietta, GA</div>
+        <div class="location-meta">
+          <span class="location-tag coming">Coming 2026</span>
+        </div>
+      </div>
+      <div class="location-card">
+        <h4>Homework Tubes Round Rock</h4>
+        <div class="location-city">Round Rock, TX</div>
+        <div class="location-meta">
+          <span class="location-tag coming">Coming 2026</span>
+        </div>
+      </div>
+      <div class="location-card">
+        <h4>Homework Tubes Henderson</h4>
+        <div class="location-city">Henderson, NV</div>
+        <div class="location-meta">
+          <span class="location-tag coming">Coming 2026</span>
+        </div>
+      </div>
+      <div class="location-card">
+        <h4>Homework Tubes Svalbard</h4>
+        <div class="location-city">Longyearbyen, Svalbard</div>
+        <div class="location-detail">Northernmost tube system on Earth</div>
+        <div class="location-meta">
+          <span class="location-tag coming">Coming 2027</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="pricing" id="pricing">
+  <h2 class="section-title">TUBE PASSES</h2>
+  <p class="section-subtitle">Pick the tube plan that's right for your family.</p>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-name">Day Tube</div>
+      <div class="price-amount">$15</div>
+      <div class="price-period">per visit</div>
+      <ul class="price-features">
+        <li>One 2-hour tube session</li>
+        <li>Access to all zones</li>
+        <li>One Victory Slide ride</li>
+        <li>Complimentary juice box</li>
+      </ul>
+      <a href="#" class="btn btn-secondary" style="width:100%;justify-content:center;">Get Day Pass</a>
+    </div>
+    <div class="price-card featured">
+      <div class="price-name">Monthly Tube</div>
+      <div class="price-amount">$89</div>
+      <div class="price-period">per month</div>
+      <ul class="price-features">
+        <li>Unlimited tube sessions</li>
+        <li>Priority pod selection</li>
+        <li>Unlimited Victory Slides</li>
+        <li>Tube Tutor™ access</li>
+        <li>Monthly progress reports</li>
+        <li>Tube Fast Pass™ included</li>
+      </ul>
+      <a href="#" class="btn btn-primary" style="width:100%;justify-content:center;">Get Monthly</a>
+    </div>
+    <div class="price-card">
+      <div class="price-name">Mega Tube</div>
+      <div class="price-amount">$199</div>
+      <div class="price-period">per month / family</div>
+      <ul class="price-features">
+        <li>Everything in Monthly</li>
+        <li>Up to 4 kids</li>
+        <li>VIP tubes (extra wide, 10% less glass)</li>
+        <li>Personal Tube Tutor™</li>
+        <li>Birthday party in the tubes</li>
+      </ul>
+      <a href="#" class="btn btn-secondary" style="width:100%;justify-content:center;">Go Mega</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-tubes">🔴🔵🟢🟡🟣🟠</div>
+  <p>© 2026 Homework Tubes™ Inc. All rights reserved.</p>
+  <p style="margin-top:0.5rem;">
+    <a href="#">Tube Safety Policy</a> · <a href="#">Careers (We're Hiring Tube Tutors!)</a> · <a href="#">Franchise Opportunities</a> · <a href="#">Poppi Tube™ Partnership</a>
+  </p>
+  <p style="margin-top:1rem; font-size:0.75rem; opacity:0.5;">Homework Tubes™, Tube Tutor™, Tube Tokens™, Tube Fast Pass™, The System™, Victory Slide™, Tubey™, Poppi Tube™, and Broken Glass Tube™ are trademarks of Homework Tubes Inc., a division of Big Tube Holdings LLC. "Let's get tubular!" is a retired phrase and may not be used by any Homework Tubes employee, contractor, or mascot performer. Use of this phrase on Homework Tubes premises may result in immediate removal.</p>
+</footer>
+
+</body>
+</html>
